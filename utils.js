@@ -1,5 +1,6 @@
 module.exports = () => {
     const jwt = require('jsonwebtoken');
+    const nodemailer = require("nodemailer");
 
 
     function authenticateToken(req, res, next) {
@@ -24,8 +25,30 @@ module.exports = () => {
         return otp;
     }
 
+    async function emailSend(otp,email) {
+
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: "465",
+          secure: true,
+          service: "Gmail",
+          auth: {
+            user: appConfig.email,
+            pass: appConfig.password
+          },
+        });
+
+        const info = await transporter.sendMail({
+            from: 'Aghaz junaid <@gmail.com>',
+            to: email,
+            subject: "OTP for verification of your email",
+            text: "OTP for account verification is "+otp+"", 
+          });
+      }
+
 
     return{
-        authenticateToken
+        authenticateToken,
+        emailSend
     }
 }
