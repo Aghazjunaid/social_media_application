@@ -6,6 +6,7 @@ const upload = multer()
 utils = require('../utils')();
 user = require('./user/user')();
 friend = require('./friends/friends')();
+post = require('./post/post')();
 
 apiRouter.get('', (req, res) => {
     res.status(200).send("Node api demo")
@@ -27,14 +28,10 @@ apiRouter.put('/rejectFriendRequest/:id', utils.authenticateToken, friend.reject
 apiRouter.put('/removeFriend/:id', utils.authenticateToken, friend.removeFriend);
 apiRouter.get('/friendsList', utils.authenticateToken, friend.viewMyFriends);
 
-// //===============district api===========================
-// apiRouter.post('/district', utils.authenticateToken, upload.none(), people.postDistrict);
-// apiRouter.get('/district', utils.authenticateToken, people.getDistrict);
+//===============post api===========================
+apiRouter.post('/post', utils.authenticateToken, post.addPost);
+//apiRouter.get('/district', utils.authenticateToken, people.getDistrict);
 
-// //==============child api===============================
-// apiRouter.post('/child', utils.authenticateToken, people.postChild);
-// apiRouter.get('/child', utils.authenticateToken, people.getChild);
-// apiRouter.post('/child/image/:id', utils.authenticateToken, upload.single('image'), people.updateChildImage);
 
 
 
