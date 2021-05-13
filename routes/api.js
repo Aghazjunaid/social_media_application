@@ -22,6 +22,7 @@ apiRouter.post('/user/profileImage/:id', utils.authenticateToken, upload.single(
 
 //==============state api===============================
 apiRouter.post('/friendRequest/:id', utils.authenticateToken, friend.sendFriendRequest);
+apiRouter.post('/acceptFriendRequest/:id', utils.authenticateToken, friend.acceptFriendRequest);
 apiRouter.get('/friendsList', utils.authenticateToken, friend.viewMyFriends);
 
 // //===============district api===========================
