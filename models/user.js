@@ -35,7 +35,7 @@ const OtpSchema = new Schema({
 
 const PostSchema = new Schema({
     user: {type: Schema.Types.ObjectId, ref:"user"},
-    post: {type: String, required: true }
+    body: {type: String, required: true }
 },{ timestamps:true })
 
 
