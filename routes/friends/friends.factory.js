@@ -56,6 +56,30 @@ module.exports = ({
                 return_response.message = "Friend request accepted successfully";
                 return_response.data = doc;
             }
+
+        } catch (error) {
+            return_response.status = 400;
+            return_response.message = String(error);
+        }
+        res.json(return_response);
+    }
+
+    //====================reject friend request=====================================
+    async function rejectFriendRequest(req,res){
+        var return_response = { "status": null, "message": null, "data": {} } 
+        try {
+            const pendingFriends = await PendingFriends.find({user:req.user.id});
+            var index = pendingFriends[0]._doc.pendingFriends.indexOf(req.params.id);
+            if (index > -1) {
+                pendingFriends[0]._doc.pendingFriends.splice(index, 1);
+            }
+            const opt = {
+                pendingFriends : pendingFriends[0]._doc.pendingFriends
+            }
+            const doc = await PendingFriends.findOneAndUpdate({user:req.user.id}, opt, {new:true})
+            return_response.status = 200;
+            return_response.message = "Success";
+            return_response.data = doc;
         } catch (error) {
             return_response.status = 400;
             return_response.message = String(error);
@@ -108,6 +132,7 @@ module.exports = ({
     return {
         sendFriendRequest,
         acceptFriendRequest,
+        rejectFriendRequest,
         removeFriend,
         viewMyFriends
     }
