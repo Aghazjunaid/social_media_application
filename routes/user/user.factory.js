@@ -108,6 +108,38 @@ async function resendOtp(req,res){
 }
 
 
+
+
+//=====================forgot password===================================================
+async function forgotPassword(req,res){
+    var return_response = {
+        "status": null,
+        "message": null
+    }
+    try{
+        const user = await User.findOne({email:req.body.email})
+        if(!user){
+            return_response["status"] = 400;
+            return_response["message"] = "User with this email doesn't exist";
+            return res.status(400).send(return_response);
+        }else{
+            var otp = utils.otpGenerator();
+            otpObj = {
+                otp: otp
+            }
+            const opt = new Otp(otpObj);
+            opt.save();
+            utils.emailSend(otp,req.body.email)
+            return_response["status"] = 200;
+            return_response["message"] = "Success";
+            return res.send(return_response);
+        }
+    }catch (error) {
+        return_response["message"] = String(error);
+        return res.status(400).send(return_response);
+    }
+}
+
     return {
         registerUser,
         loginUser,
