@@ -12,6 +12,8 @@ apiRouter.get('', (req, res) => {
 
 //============user login api============================
 apiRouter.post('/register', user.registerUser);
+apiRouter.post('/login', user.loginUser);
+
 
 //==============state api===============================
 // apiRouter.post('/state', utils.authenticateToken, upload.none(), people.postState);
