@@ -5,6 +5,7 @@ const upload = multer()
 
 utils = require('../utils')();
 user = require('./user/user')();
+friend = require('./friends/friends')();
 
 apiRouter.get('', (req, res) => {
     res.status(200).send("Node api demo")
@@ -20,7 +21,7 @@ apiRouter.post('/user/profileImage/:id', utils.authenticateToken, upload.single(
 
 
 //==============state api===============================
-// apiRouter.post('/state', utils.authenticateToken, upload.none(), people.postState);
+apiRouter.post('/friendRequest/:id', utils.authenticateToken, friend.sendFriendRequest);
 // apiRouter.get('/state', utils.authenticateToken, people.getState);
 
 // //===============district api===========================
