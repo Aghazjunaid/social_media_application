@@ -5,7 +5,7 @@ module.exports = ({
 }) => {
 
     //=====================register user api=============================================
-    async function register(req, res) {
+    async function registerUser(req, res) {
         var return_response = {
             "status": null,
             "message": null,
@@ -42,7 +42,7 @@ module.exports = ({
 
 
     return {
-
+        registerUser
     }
 
 }
