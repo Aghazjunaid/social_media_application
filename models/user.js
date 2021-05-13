@@ -18,7 +18,10 @@ const OtpSchema = new Schema({
 
 User = mongoose.model("user", UserSchema); 
 // user will be fields in our database
+Otp = mongoose.model("otp", OtpSchema); 
+
 
 module.exports={ 
-    User
+    User,
+    Otp
 }

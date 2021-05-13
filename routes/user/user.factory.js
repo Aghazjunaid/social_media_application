@@ -1,7 +1,9 @@
 module.exports = ({
     User,
+    Otp,
     jwt,
-    bcrypt
+    bcrypt,
+    utils
 }) => {
 
     //=====================register user api=============================================
@@ -108,8 +110,6 @@ async function resendOtp(req,res){
 }
 
 
-
-
 //=====================forgot password===================================================
 async function forgotPassword(req,res){
     var return_response = {
@@ -150,6 +150,7 @@ async function resetPassword(req,res){
         "data": null
     }
     try{
+        let opt = req.body;
         const otp = await Otp.findOne({otp : req.body.otp});
         if(otp){
             const user = await User.findOne({email : req.body.email});
@@ -158,7 +159,6 @@ async function resetPassword(req,res){
                 return_response["message"] = "User doesn't exist!";
                 return res.status(400).json(return_response);
             }else{
-                var opt = extend({}, req.body);
                 const salt = await bcrypt.genSaltSync(10);
                 const password = await bcrypt.hashSync(opt.newPass, salt);
                 user.password = password;
@@ -190,7 +190,9 @@ async function resetPassword(req,res){
     return {
         registerUser,
         loginUser,
-        resendOtp
+        resendOtp,
+        forgotPassword,
+        resetPassword
     }
 
 }

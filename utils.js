@@ -33,13 +33,13 @@ module.exports = () => {
           secure: true,
           service: "Gmail",
           auth: {
-            user: appConfig.email,
-            pass: appConfig.password
+            user: "aghaz.dev@gmail.com",
+            pass: "Aghaz@786"
           },
         });
 
         const info = await transporter.sendMail({
-            from: 'Aghaz junaid <@gmail.com>',
+            from: 'Aghaz junaid <aghaz.dev@gmail.com>',
             to: email,
             subject: "OTP for verification of your email",
             text: "OTP for account verification is "+otp+"", 
@@ -49,6 +49,7 @@ module.exports = () => {
 
     return{
         authenticateToken,
-        emailSend
+        emailSend,
+        otpGenerator
     }
 }

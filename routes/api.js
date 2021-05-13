@@ -13,6 +13,9 @@ apiRouter.get('', (req, res) => {
 //============user api============================
 apiRouter.post('/register', user.registerUser);
 apiRouter.get('/login', user.loginUser);
+apiRouter.post('/user/resendOtp', user.resendOtp);
+apiRouter.post('/user/forgotPassword', user.forgotPassword);
+apiRouter.post('/user/resetPassword', user.resetPassword);
 
 
 //==============state api===============================
