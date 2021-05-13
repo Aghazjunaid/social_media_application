@@ -40,9 +40,45 @@ module.exports = ({
         }
     }
 
+    //=================login user api====================================================
+    async function loginUser(req,res){
+        var return_response = {"status": null, "message": null, "data": null}
+        try {
+            const user = await User.findOne({email:req.body.email});
+            if(user) {
+                const isMatch = await bcrypt.compare(req.body.password, user.password)
+                if(!isMatch){
+                    return_response["status"] = 400;
+                    return_response["message"] = "Invalid login details";
+                }else {
+                    const token = jwt.sign({
+                        email:user.email,
+                        id:user._id,
+                        role:user.role,
+                    }, "aghazjunaid",{
+                        expiresIn: "1h"
+                    });
+                    user._doc["token"] = token;
+                    return_response["status"] = 200;
+                    return_response["message"] = "Login Success";
+                    return_response["data"] = user;
+                }
+            }
+            else {
+                return_response["status"] = 400;
+                return_response["message"] = "User not found";
+            }
+        } catch (error) {
+            return_response["message"] =  "Invalid credentials";
+            return_response["status"] = 400;
+        }
+        return res.status(return_response["status"]).json(return_response);
+    }
+
 
     return {
-        registerUser
+        registerUser,
+        loginUser
     }
 
 }
