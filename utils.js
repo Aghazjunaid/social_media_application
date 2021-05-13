@@ -1,6 +1,9 @@
 module.exports = () => {
     const jwt = require('jsonwebtoken');
     const nodemailer = require("nodemailer");
+    const { Dropbox } = require('dropbox');
+
+    const dbx = new Dropbox({ accessToken: "RheQmmnnQhwAAAAAAAAAAayzzRTdi1VKfk2deE4Dqjqe0GWpfbuLF7dw65DDqiGn" });
 
 
     function authenticateToken(req, res, next) {
@@ -8,7 +11,7 @@ module.exports = () => {
         if (!token){
             return res.status(401).send("Invalid authorization");
         } else {
-            jwt.verify(token, "gsjkah35gsj546b5t", (error, user) => {
+            jwt.verify(token, "dfgjgfr76rur", (error, user) => {
                 if (error){
                     return res.status(400).send(error);
                 }
