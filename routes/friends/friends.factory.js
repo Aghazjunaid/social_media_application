@@ -68,6 +68,15 @@ module.exports = ({
                 friend2._doc.friends.push(req.params.id)
                 await friend2.save();
             }
+            const pendingFriends = await PendingFriends.find({user:req.user.id});
+            var index = pendingFriends[0]._doc.pendingFriends.indexOf(req.params.id);
+            if (index > -1) {
+                pendingFriends[0]._doc.pendingFriends.splice(index, 1);
+            }
+            const opt = {
+                pendingFriends : pendingFriends[0]._doc.pendingFriends
+            }
+            await PendingFriends.findOneAndUpdate({user:req.user.id}, opt, {new:true})
         } catch (error) {
             return_response.status = 400;
             return_response.message = String(error);
