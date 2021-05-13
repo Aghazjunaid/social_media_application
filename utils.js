@@ -1,6 +1,9 @@
 module.exports = () => {
     const jwt = require('jsonwebtoken');
     const nodemailer = require("nodemailer");
+    const { Dropbox } = require('dropbox');
+
+    const dbx = new Dropbox({ accessToken: "RheQmmnnQhwAAAAAAAAAAayzzRTdi1VKfk2deE4Dqjqe0GWpfbuLF7dw65DDqiGn" });
 
 
     function authenticateToken(req, res, next) {
