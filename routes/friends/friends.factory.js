@@ -18,15 +18,30 @@ module.exports = ({
                 const pendingFriends = new PendingFriends(opt);
                 let doc = await pendingFriends.save();
                 return_response.status = 200;
-                return_response.message = "State added successfully";
+                return_response.message = "Friend request send successfully";
                 return_response.data = doc;
             } else {
                 pendingFriends._doc.pendingFriends.push(req.params.id)
                 let doc = await pendingFriends.save();
                 return_response.status = 200;
-                return_response.message = "State added successfully";
+                return_response.message = "Friend request send successfully";
                 return_response.data = doc;
             }
+        } catch (error) {
+            return_response.status = 400;
+            return_response.message = String(error);
+        }
+        res.json(return_response);
+    }
+
+     //=====================get all my friends========================================
+     async function viewMyFriends(req,res){
+        var return_response = { "status": null, "message": null, "data": {} } 
+        try {
+            const doc = await PendingFriends.find({user:req.user.id}).populate("pendingFriends");
+            return_response.status = 200;
+            return_response.message = "Success";
+            return_response.data = doc;
         } catch (error) {
             return_response.status = 400;
             return_response.message = String(error);
@@ -38,6 +53,7 @@ module.exports = ({
 
 
     return {
-        sendFriendRequest
+        sendFriendRequest,
+        viewMyFriends
     }
 }
