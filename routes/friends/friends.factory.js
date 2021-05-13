@@ -56,7 +56,18 @@ module.exports = ({
                 return_response.message = "Friend request accepted successfully";
                 return_response.data = doc;
             }
-
+            const friend2 = await Friends.findOne({user:req.params.id});
+            if (!friend2){
+                let opt = {
+                    "user": req.params.id,
+                    "friends": req.user.id
+                }
+                const friendObject = new Friends(opt);
+                await friendObject.save();
+            } else {
+                friend2._doc.friends.push(req.params.id)
+                await friend2.save();
+            }
         } catch (error) {
             return_response.status = 400;
             return_response.message = String(error);
