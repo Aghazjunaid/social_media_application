@@ -75,10 +75,43 @@ module.exports = ({
         return res.status(return_response["status"]).json(return_response);
     }
 
+    
+//=================resend otp===========================================================
+async function resendOtp(req,res){
+    var return_response = {
+        "status": null,
+        "message": null
+    }
+    try{
+        const user = await User.findOne({email : req.body.email});
+        if(user){
+            var otp = utils.otpGenerator();
+            otpObj = {
+                userId: user._id,
+                otp: otp
+            }
+            const opt = new Otp(otpObj);
+            opt.save();
+            utils.emailSend(otp,req.body.email);
+            return_response["status"] = 200;
+            return_response["message"] = "Success";
+            return res.send(return_response);
+        }else{
+            return_response["status"] = 400;
+            return_response["message"] = "User not found";
+            return res.status(400).send(return_response);
+        }
+    }catch (error) {
+        return_response["message"] = String(error);
+        return res.status(400).send(return_response);
+    }
+}
+
 
     return {
         registerUser,
-        loginUser
+        loginUser,
+        resendOtp
     }
 
 }
