@@ -10,9 +10,9 @@ apiRouter.get('', (req, res) => {
     res.status(200).send("Node api demo")
 })
 
-//============user login api============================
+//============user api============================
 apiRouter.post('/register', user.registerUser);
-apiRouter.post('/login', user.loginUser);
+apiRouter.get('/login', user.loginUser);
 
 
 //==============state api===============================
