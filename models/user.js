@@ -9,6 +9,12 @@ const UserSchema = new Schema({
     profilePhoto: {type: String, default: "https://www.dropbox.com/s/9gjddxm7uqw6uew/726323_user.png?raw=1" },
 },{ timestamps:true })
 
+const OtpSchema = new Schema({
+    userId: {type: Schema.Types.ObjectId, ref:"user"},
+    otp: {type: Number},
+    created: {type: Date, default: Date},
+    expired: {type: Date, default: Date.now, index: { expires: '15m' }},
+});
 
 User = mongoose.model("user", UserSchema); 
 // user will be fields in our database
