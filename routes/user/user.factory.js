@@ -140,6 +140,53 @@ async function forgotPassword(req,res){
     }
 }
 
+
+
+//================reset password=========================================================
+async function resetPassword(req,res){
+    var return_response = {
+        "status": null,
+        "message": null,
+        "data": null
+    }
+    try{
+        const otp = await Otp.findOne({otp : req.body.otp});
+        if(otp){
+            const user = await User.findOne({email : req.body.email});
+            if(!user){
+                return_response["status"] = 400;
+                return_response["message"] = "User doesn't exist!";
+                return res.status(400).json(return_response);
+            }else{
+                var opt = extend({}, req.body);
+                const salt = await bcrypt.genSaltSync(10);
+                const password = await bcrypt.hashSync(opt.newPass, salt);
+                user.password = password;
+                user.save(function(error,doc){
+                    if(error){
+                        return_response["status"] = 400;
+                        return_response["message"] = String(error);
+                        return res.send(return_response);  
+                    } else {
+                        return_response["status"] = 200;
+                        return_response["message"] = "success";
+                        return_response["data"] = doc;
+                        return res.send(return_response);
+                    }
+                });
+            }
+        }else{
+            return_response["status"] = 400;
+            return_response["message"] = "OTP has been expired";
+            return res.send(return_response);
+        }
+    }catch (error) {
+        return_response["message"] = String(error);
+        return res.status(400).send(return_response);
+    }
+}
+
+
     return {
         registerUser,
         loginUser,
