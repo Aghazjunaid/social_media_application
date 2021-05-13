@@ -33,11 +33,17 @@ const OtpSchema = new Schema({
     expired: {type: Date, default: Date.now, index: { expires: '15m' }},
 });
 
-User = mongoose.model("user", UserSchema); 
-// user will be fields in our database
+const PostSchema = new Schema({
+    user: {type: Schema.Types.ObjectId, ref:"user"},
+    post: {type: String, required: true }
+},{ timestamps:true })
+
+
+User = mongoose.model("user", UserSchema);  // user will be fields in our database
 Otp = mongoose.model("otp", OtpSchema); 
 PendingFriends = mongoose.model("pendingFriends", PendingFriendsSchema); 
 Friends = mongoose.model("friends", FriendsSchema); 
+Post = mongoose.model("post", PostSchema); 
 
 
 
@@ -45,5 +51,6 @@ module.exports={
     User,
     Otp,
     PendingFriends,
-    Friends
+    Friends,
+    Post
 }
