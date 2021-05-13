@@ -31,8 +31,7 @@ apiRouter.get('/friendsList', utils.authenticateToken, friend.viewMyFriends);
 //===============post api===========================
 apiRouter.post('/post', utils.authenticateToken, post.addPost);
 apiRouter.get('/post', utils.authenticateToken, post.getPost);
-
-
+apiRouter.delete('/post/:id', utils.authenticateToken, post.deletePost);
 
 
 module.exports = apiRouter;
