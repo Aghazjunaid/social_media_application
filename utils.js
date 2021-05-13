@@ -11,7 +11,7 @@ module.exports = () => {
         if (!token){
             return res.status(401).send("Invalid authorization");
         } else {
-            jwt.verify(token, "gsjkah35gsj546b5t", (error, user) => {
+            jwt.verify(token, "dfgjgfr76rur", (error, user) => {
                 if (error){
                     return res.status(400).send(error);
                 }

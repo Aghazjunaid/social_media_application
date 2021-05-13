@@ -57,8 +57,8 @@ module.exports = ({
                         email:user.email,
                         id:user._id,
                         role:user.role,
-                    }, "aghazjunaid",{
-                        expiresIn: "1h"
+                    }, "dfgjgfr76rur",{
+                        expiresIn: "24h"
                     });
                     user._doc["token"] = token;
                     return_response["status"] = 200;

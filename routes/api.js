@@ -3,7 +3,7 @@ apiRouter = express.Router();
 var multer  = require('multer');
 const upload = multer()
 
-//utils = require('../utils')();
+utils = require('../utils')();
 user = require('./user/user')();
 
 apiRouter.get('', (req, res) => {
@@ -16,6 +16,7 @@ apiRouter.get('/login', user.loginUser);
 apiRouter.post('/user/resendOtp', user.resendOtp);
 apiRouter.post('/user/forgotPassword', user.forgotPassword);
 apiRouter.post('/user/resetPassword', user.resetPassword);
+apiRouter.post('/user/profileImage/:id', utils.authenticateToken, upload.single('image'), user.uploadUserProfileImage);
 
 
 //==============state api===============================
