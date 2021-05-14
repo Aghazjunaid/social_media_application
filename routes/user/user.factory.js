@@ -7,6 +7,7 @@ module.exports = ({
 }) => {
 
     //=====================register user api=============================================
+    //This api will get users data like name,email,password and save into the users collection
     async function registerUser(req, res) {
         var return_response = {
             "status": null,
@@ -21,8 +22,10 @@ module.exports = ({
                 return res.send(return_response);
             } else {
                 var opt = req.body;
+                //bcrypt will encrypt the original password and store in the DB
                 const salt = await bcrypt.genSaltSync(10);
                 opt.password = await bcrypt.hashSync(opt.password, salt);
+                //A token will generate for authentication purpose
                 const token = jwt.sign({
                     email:opt.email,
                 }, "dfgjgfr76rur",{
@@ -43,6 +46,8 @@ module.exports = ({
     }
 
     //=================login user api====================================================
+    //This api will get email and password in req.body and match it with the data stored in
+    //the user DB. if matched then generate token and logged in
     async function loginUser(req,res){
         var return_response = {"status": null, "message": null, "data": null}
         try {
@@ -79,6 +84,7 @@ module.exports = ({
 
     
 //=================resend otp===========================================================
+//This api will regenerate otp for resetting the password
 async function resendOtp(req,res){
     var return_response = {
         "status": null,
@@ -87,6 +93,8 @@ async function resendOtp(req,res){
     try{
         const user = await User.findOne({email : req.body.email});
         if(user){
+            //utils.otpGenerator() will call the otp generator function in utils and generate 
+            //random 6 digit number
             var otp = utils.otpGenerator();
             otpObj = {
                 userId: user._id,
@@ -111,6 +119,7 @@ async function resendOtp(req,res){
 
 
 //=====================forgot password===================================================
+//This api will send an email with 6 digit otp for resetting the password
 async function forgotPassword(req,res){
     var return_response = {
         "status": null,
@@ -143,6 +152,8 @@ async function forgotPassword(req,res){
 
 
 //================reset password=========================================================
+//This api will take 6 digit otp, new password and email in the req.body then reset the password
+//and again encrypt it with bcrypt 
 async function resetPassword(req,res){
     var return_response = {
         "status": null,
@@ -189,6 +200,8 @@ async function resetPassword(req,res){
 
 
     //=====================add user profile image=================================================
+    //This api will add user profile image.It uses multer to image image and image will stored in 
+    //the dropbox using its 3rd party api and then image link will be stored in the DB
     async function uploadUserProfileImage(req, res){
         var return_response = {"status": 200,"message": "Success","data": null}
         try {
