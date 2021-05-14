@@ -27,6 +27,8 @@ apiRouter.post('/acceptFriendRequest/:id', utils.authenticateToken, friend.accep
 apiRouter.put('/rejectFriendRequest/:id', utils.authenticateToken, friend.rejectFriendRequest);
 apiRouter.put('/removeFriend/:id', utils.authenticateToken, friend.removeFriend);
 apiRouter.get('/friendsList', utils.authenticateToken, friend.viewMyFriends);
+apiRouter.get('/friendsOfFriend/:id', utils.authenticateToken, friend.viewFriendsOfFriend);
+
 
 //===============post api===========================
 apiRouter.post('/post', utils.authenticateToken, post.addPost);

@@ -147,6 +147,21 @@ module.exports = ({
     }
 
 
+    //====================view friends of friend=========================================
+    async function viewFriendsOfFriend(req,res){
+        var return_response = { "status": null, "message": null, "data": {} } 
+        try {
+            const doc = await Friends.find({user:req.params.id});
+            return_response.status = 200;
+            return_response.message = "Success";
+            return_response.data = doc;
+        } catch (error) {
+            return_response.status = 400;
+            return_response.message = String(error);
+        }
+        res.json(return_response);
+    }
+
 
 
     return {
@@ -154,6 +169,7 @@ module.exports = ({
         acceptFriendRequest,
         rejectFriendRequest,
         removeFriend,
-        viewMyFriends
+        viewMyFriends,
+        viewFriendsOfFriend
     }
 }
