@@ -181,10 +181,21 @@ module.exports = ({
     async function viewFriendsOfFriend(req,res){
         var return_response = { "status": null, "message": null, "data": {} } 
         try {
-            const doc = await Friends.find({user:req.params.id});
-            return_response.status = 200;
-            return_response.message = "Success";
-            return_response.data = doc;
+            const friend = await Friends.find({user:req.user.id});
+            //This will check first that whose friend list you want to view is
+            //your friend or not
+            var index = friend[0]._doc.friends.indexOf(req.params.id);
+            //if friend then execute below code
+            if(index != null){
+                const doc = await Friends.find({user:req.params.id});
+                return_response.status = 200;
+                return_response.message = "Success";
+                return_response.data = doc;
+            //Otherwise execute this
+            } else {
+                return_response.status = 200;
+                return_response.message = "User is not your friend";
+            }
         } catch (error) {
             return_response.status = 400;
             return_response.message = String(error);
