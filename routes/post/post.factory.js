@@ -5,6 +5,7 @@ module.exports = ({
 }) => {
 
     //================add post======================================================
+    //This api will get body from postman and save the data in post collection of logged in user
     async function addPost(req,res){
         var return_response = { "status": null, "message": null, "data": {} } 
         try {
@@ -23,6 +24,7 @@ module.exports = ({
     }
 
     //=====================get post========================================
+    //This api will show all the post of logged in user
     async function getPost(req,res){
         var return_response = { "status": null, "message": null, "data": {} } 
         try {
@@ -39,6 +41,7 @@ module.exports = ({
 
 
     //====================delete post===============================================
+    //This api will delete any paricular post by their id
     async function deletePost(req,res){
          return_response = { "status": null, "message": null, "data": {} } 
         try {

@@ -21,7 +21,7 @@ apiRouter.post('/user/resetPassword', user.resetPassword);
 apiRouter.post('/user/profileImage/:id', utils.authenticateToken, upload.single('image'), user.uploadUserProfileImage);
 
 
-//==============state api===============================
+//==============friends api===============================
 apiRouter.post('/friendRequest/:id', utils.authenticateToken, friend.sendFriendRequest);
 apiRouter.post('/acceptFriendRequest/:id', utils.authenticateToken, friend.acceptFriendRequest);
 apiRouter.put('/rejectFriendRequest/:id', utils.authenticateToken, friend.rejectFriendRequest);
